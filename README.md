@@ -19,9 +19,9 @@ Assuming you plan to us [ngrok](https://ngrok.com) to give your bot a publically
 1. Clone this repo:
 
     ```sh
-    git clone https://github.com/CiscoDevNet/botkit-webex-samples.git
+    git clone https://github.com/angelsoffury/CareToShare.git
 
-    cd botkit-webex-samples
+    cd CareToShare
     ```
 
 1. Install the Node.js dependencies:
