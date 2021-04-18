@@ -7,6 +7,7 @@
     "start": "node bot.js"
   },
   "dependencies": {
+    "botbuilder-adapter-web": "^1.0.9",
     "botbuilder-adapter-webex": "^1.0.9",
     "botbuilder-storage-mongodb": "^1.0.5",
     "botbuilder-storage-redis": "^1.0.10",

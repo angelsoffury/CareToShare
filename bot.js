@@ -1,24 +1,3 @@
-// Copyright (c) 2018 Cisco and/or its affiliates.
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//  __   __  ___        ___
-// |__) /  \  |  |__/ |  |
-// |__) \__/  |  |  \ |  |
-
-// This is the main file for the template bot.
 
 // Load process.env values from .env file
 require('dotenv').config();
@@ -54,13 +33,6 @@ if (process.env.REDIS_URL) {
     // Initialize redis client
     const redisClient = redis.createClient(process.env.REDIS_URL, { prefix: 'bot-storage:' });
     storage = new RedisDbStorage(redisClient);
-}
-
-if (process.env.MONGO_URI) {
-
-    const { MongoDbStorage } = require('botbuilder-storage-mongodb');
-
-    storage = new MongoDbStorage({ url: process.env.MONGO_URI })
 }
 
 // Create Webex Adapter
@@ -115,6 +87,20 @@ function processWebsocketActivity( event ) {
 // Once the bot has booted up its internal services, you can use them to do stuff
 controller.ready( async () => {
 
+    // Create a MongoClient and connect it.
+    const { MongoClient } = require('mongodb');
+    const mongoClient = new MongoClient(process.env.MONGO_URI, { useUnifiedTopology: true });
+    await mongoClient.connect();
+
+    const { MongoDbStorage } = require('botbuilder-storage-mongodb');
+    // Grab a collection handle off the connected client
+    storage = mongoClient.db("CareToShareDB").collection("ItemList");
+    //const collection = MongoDbStorage.getCollection(mongoClient, "CareToShare", "ItemList");
+
+    // Create a MongoDbStorage, supplying the collection to it.
+    //const mongoStorage = storage = new MongoDbStorage(collection);
+
+
     const path = require('path');
 
     // load developer-created custom feature modules
@@ -148,6 +134,9 @@ controller.ready( async () => {
         await controller.adapter.resetWebhookSubscriptions();
 
         console.log( 'Using websockets for incoming messages/events');
+
+        //For adaptivecards
+        await controller.adapter.registerAdaptiveCardWebhookSubscription('/api/messages');
     }
     else {
         // Register attachmentActions webhook
@@ -179,3 +168,4 @@ controller.checkAddMention = function ( roomType, command ) {
 
     return `\`${command}\``
 }
+

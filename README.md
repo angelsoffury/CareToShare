@@ -1,16 +1,7 @@
-# botkit-webex-samples
+# CareToShare Bot
 
-This project implements a Botkit + Webex Teams adapter bot, based on the DevNet [botkit-template](https://www.github.com/CiscoDevNet/botkit-template) project, providing some additional interesting samples and examples:
+This project implements a Botkit + Webex Teams adapter bot.
 
-- `emoji.js`- Converts emoji tags into unicode characters and returns the "emojified" phrase
-
-- `events.js` - Retrieve/display DevNet event details from an HTTP REST API providing JSON data
-
-- `roomid-phantom.js` - Helpful utility bot; when added to a room, it creates a separate space with the requestor and outputs the roomId of the original room
-
-- `roomkit.js` - Interact with a Cisco room device via xAPI/jsxapi.  Query the device's 'PeopleCount' function, or execute an ad hoc 'xStatus' CLI command
-
-- `survey.js` - Implements a basic survey, posting survey data into a cloud service (i.e. Webex Teams) via an external REST API 
 
 ## Websockets vs. Webhooks
 

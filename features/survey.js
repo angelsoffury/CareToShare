@@ -92,6 +92,6 @@ module.exports = function ( controller ) {
         await bot.beginDialog( 'survey_chat' );
     });
 
-    controller.commandHelp.push( { command: 'survey', text: 'Ask a survey question, post results to a Webex Teams Space' } );
+    //controller.commandHelp.push( { command: 'survey', text: 'Ask a survey question, post results to a Webex Teams Space' } );
 
 }
